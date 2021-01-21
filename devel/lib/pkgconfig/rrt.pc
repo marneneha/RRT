@@ -1,0 +1,8 @@
+prefix=/home/neha/motion_planning/devel
+
+Name: rrt
+Description: Description of rrt
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib -lrrt
+Requires: roscpp std_msgs geometry_msgs nav_msgs message_runtime
