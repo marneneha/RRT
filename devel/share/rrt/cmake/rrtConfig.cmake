@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/neha/motion_planning/devel/lib;/home/neha/workspace/devel/lib;/home/neha/mrs_workspace/devel/lib;/opt/ros/melodic/lib)
+    foreach(path /home/neha/motion_planning/devel/lib;/home/neha/visual_odom/devel/lib;/home/neha/workspace/devel/lib;/home/neha/mrs_workspace/devel/lib;/opt/ros/melodic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)
@@ -185,7 +185,7 @@ foreach(t ${rrt_EXPORTED_TARGETS})
   endif()
 endforeach()
 
-set(depends "roscpp;std_msgs;geometry_msgs;nav_msgs;message_runtime")
+set(depends "rospy;std_msgs;geometry_msgs;nav_msgs;message_runtime")
 foreach(depend ${depends})
   string(REPLACE " " ";" depend_list ${depend})
   # the package name of the dependency must be kept in a unique variable so that it is not overwritten in recursive calls

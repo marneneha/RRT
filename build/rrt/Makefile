@@ -422,36 +422,6 @@ std_msgs_generate_messages_py/fast:
 	cd /home/neha/motion_planning/build && $(MAKE) -f rrt/CMakeFiles/std_msgs_generate_messages_py.dir/build.make rrt/CMakeFiles/std_msgs_generate_messages_py.dir/build
 .PHONY : std_msgs_generate_messages_py/fast
 
-src/rrt_node.o: src/rrt_node.cpp.o
-
-.PHONY : src/rrt_node.o
-
-# target to build an object file
-src/rrt_node.cpp.o:
-	cd /home/neha/motion_planning/build && $(MAKE) -f rrt/CMakeFiles/rrt_node.dir/build.make rrt/CMakeFiles/rrt_node.dir/src/rrt_node.cpp.o
-	cd /home/neha/motion_planning/build && $(MAKE) -f rrt/CMakeFiles/rrt.dir/build.make rrt/CMakeFiles/rrt.dir/src/rrt_node.cpp.o
-.PHONY : src/rrt_node.cpp.o
-
-src/rrt_node.i: src/rrt_node.cpp.i
-
-.PHONY : src/rrt_node.i
-
-# target to preprocess a source file
-src/rrt_node.cpp.i:
-	cd /home/neha/motion_planning/build && $(MAKE) -f rrt/CMakeFiles/rrt_node.dir/build.make rrt/CMakeFiles/rrt_node.dir/src/rrt_node.cpp.i
-	cd /home/neha/motion_planning/build && $(MAKE) -f rrt/CMakeFiles/rrt.dir/build.make rrt/CMakeFiles/rrt.dir/src/rrt_node.cpp.i
-.PHONY : src/rrt_node.cpp.i
-
-src/rrt_node.s: src/rrt_node.cpp.s
-
-.PHONY : src/rrt_node.s
-
-# target to generate assembly for a file
-src/rrt_node.cpp.s:
-	cd /home/neha/motion_planning/build && $(MAKE) -f rrt/CMakeFiles/rrt_node.dir/build.make rrt/CMakeFiles/rrt_node.dir/src/rrt_node.cpp.s
-	cd /home/neha/motion_planning/build && $(MAKE) -f rrt/CMakeFiles/rrt.dir/build.make rrt/CMakeFiles/rrt.dir/src/rrt_node.cpp.s
-.PHONY : src/rrt_node.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -482,9 +452,6 @@ help:
 	@echo "... std_msgs_generate_messages_nodejs"
 	@echo "... roscpp_generate_messages_nodejs"
 	@echo "... std_msgs_generate_messages_py"
-	@echo "... src/rrt_node.o"
-	@echo "... src/rrt_node.i"
-	@echo "... src/rrt_node.s"
 .PHONY : help
 
 
