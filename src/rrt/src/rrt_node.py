@@ -41,7 +41,6 @@ def main(args):
 		print(min_node)
 		mini = np.linalg.norm(min_node - rand_pt)
 		for i in range(len(nodes[:,0])):
-			#print("m here")
 			#print(nodes[i])
 			if np.linalg.norm(nodes[i]-rand_pt)<mini:
 				min_node = nodes[i]
@@ -49,14 +48,17 @@ def main(args):
 		#print(mini)
 		print(min_node)
 		#align in direction and fix the distance to get the node
-		new_node = np.array([[2,3]])
+		new_node = min_node+rand_pt
+		new_node = new_node/2
 		print(new_node)
-		print(cv_image[new_node[0,0],new_node[0,1]])
-		if cv_image[new_node[0,0],new_node[0,1]]>=254:
-			nodes = np.concatenate((nodes,new_node))
-
+		print(cv_image[new_node[0],new_node[1]])
+		if cv_image[new_node[0],new_node[1]]>=254:
+			nodes = np.concatenate((nodes,[new_node]))
+			print(nodes)
+		cv2.circle(cv_image, (new_node[0],new_node[1]), 2000,(0,0,0),-1)
 		print(graph)
 		print(nodes)
+		print("m here")
 	cv2.waitKey()
 	print("m out")
     except KeyboardInterrupt:
