@@ -6,6 +6,7 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 import sys
 import random
+import numpy as np
 def randpointgen():
 	#random generator
 	x = random.randint(0,194)
@@ -21,17 +22,40 @@ def main(args):
         #kp = sift.detect(cv_image, None)
         #cv_image = cv2.drawKeypoints(cv_image, kp, None)
 	cv2.imshow("neha", cv_image)
-	print(cv_image.shape)
-	print(cv_image[140])
+	#print(cv_image.shape)
+	#print(cv_image[140])
 	#o/p of shape is 194,231
 	#make binary file 
 	
 	#define start and end pose
 	start = randpointgen()
+	nodes = np.matrix(start)
+	graph = np.zeros((1,1))
 	goal = randpointgen()
-	
-	print(start)
-	print(goal)
+	print(nodes)
+	print(graph)
+	for i in range(100):
+		rand_pt = randpointgen()
+		#minimum distace among all nodes
+		min_node = nodes[0]
+		mini = np.linalg.norm(min_node - rand_pt)
+		for i in range(len(nodes[0])):
+			print("m here")
+			print(nodes[i])
+			if np.linalg.norm(nodes[i]-rand_pt)<mini:
+				min_node = nodes[i]
+				mini = np.linalg.norm(nodes[i] - rand_pt)	
+		print(mini)
+		print(min_node)
+		#align in direction and fix the distance to get the node
+		new_node = nodes[0]
+		print(new_node[0,1])
+		print(cv_image[new_node[0,0],new_node[0,1]])
+		if cv_image[new_node[0,0],new_node[0,1]]>=254:
+			nodes.append(new_node)
+
+		print(graph)
+		print(nodes)
 	cv2.waitKey()
 	print("m out")
     except KeyboardInterrupt:
