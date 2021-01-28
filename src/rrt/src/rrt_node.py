@@ -29,7 +29,7 @@ def main(args):
 	
 	#define start and end pose
 	start = randpointgen()
-	nodes = np.matrix(start)
+	nodes = np.array([start])
 	graph = np.zeros((1,1))
 	goal = randpointgen()
 	print(nodes)
@@ -38,8 +38,9 @@ def main(args):
 		rand_pt = randpointgen()
 		#minimum distace among all nodes
 		min_node = nodes[0]
+		print(min_node)
 		mini = np.linalg.norm(min_node - rand_pt)
-		for i in range(len(nodes[0])):
+		for i in range(len(nodes[:,0])):
 			print("m here")
 			print(nodes[i])
 			if np.linalg.norm(nodes[i]-rand_pt)<mini:
@@ -49,10 +50,10 @@ def main(args):
 		print(min_node)
 		#align in direction and fix the distance to get the node
 		new_node = nodes[0]
-		print(new_node[0,1])
-		print(cv_image[new_node[0,0],new_node[0,1]])
-		if cv_image[new_node[0,0],new_node[0,1]]>=254:
-			nodes.append(new_node)
+		print(new_node)
+		print(cv_image[new_node[0],new_node[1]])
+		if cv_image[new_node[0],new_node[1]]>=254:
+			nodes = np.array(nodes,[new_node])
 
 		print(graph)
 		print(nodes)
