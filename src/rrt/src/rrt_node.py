@@ -26,7 +26,6 @@ def main(args):
 	#print(cv_image[140])
 	#o/p of shape is 194,231
 	#make binary file 
-	
 	#define start and end pose
 	start = randpointgen()
 	nodes = np.array([start])
@@ -34,11 +33,11 @@ def main(args):
 	goal = randpointgen()
 	print(nodes)
 	print(graph)
-	for i in range(100):
+	while len(nodes[:,0])<100:
 		rand_pt = randpointgen()
 		#minimum distace among all nodes
 		min_node = nodes[0]
-		print(min_node)
+		#print(min_node)
 		mini = np.linalg.norm(min_node - rand_pt)
 		for i in range(len(nodes[:,0])):
 			#print(nodes[i])
@@ -46,18 +45,30 @@ def main(args):
 				min_node = nodes[i]
 				mini = np.linalg.norm(nodes[i] - rand_pt)	
 		#print(mini)
-		print(min_node)
+		#print(min_node)
 		#align in direction and fix the distance to get the node
 		new_node = min_node+rand_pt
 		new_node = new_node/2
-		print(new_node)
-		print(cv_image[new_node[0],new_node[1]])
-		if cv_image[new_node[0],new_node[1]]>=254:
+		#print(new_node)
+		#print(cv_image[new_node[0],new_node[1]])
+		#add condition for edge not being in obstacle
+		if cv_image[new_node[0],new_node[1]]>=210:
+			n = len(nodes[:,0])
+			graph = np.concatenate( (graph,[np.zeros(n)]) ,axis=0)
+			print(graph)
+			graph = np.concatenate( (graph,np.zeros((n+1,1))) ,axis=1)
+			print(graph)
+			graph[len(nodes[:,0]),np.where(nodes == min_node)] = mini/2
+			graph[np.where(nodes == min_node),len(nodes[:,0])] = mini/2
 			nodes = np.concatenate((nodes,[new_node]))
-			print(nodes)
-		cv2.circle(cv_image, (new_node[0],new_node[1]), 2000,(0,0,0),-1)
+		else:
+			break
+		#print(nodes)
 		print(graph)
-		print(nodes)
+		cv2.circle(cv_image, (new_node[0],new_node[1]), 1,(0,255,0),-1)
+		cv2.line(cv_image,(min_node[0],min_node[1]),(new_node[0],new_node[1]),(150),1)
+		cv2.imshow("neha", cv_image)
+		#print(nodes)
 		print("m here")
 	cv2.waitKey()
 	print("m out")
