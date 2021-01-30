@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+#print(cv_image.shape)
+#print(cv_image[140])
+#o/p of shape is x=231 y=194
+#make binary file 
+#define start and end pose
 #pblm1 node being created inside obstacle region
 #pblm2 area more than map i.e. surounding area being explored w.r.t. edge not vertices 
 #pblm3 every node is related to node 1&2
@@ -13,32 +18,28 @@ import random
 import numpy as np
 def randpointgen():
 	#random generator
-	x = random.randint(0,194)
-	y = random.randint(0,231)
+	x = random.randint(0,231)
+	y = random.randint(0,194)
 	#if cv_image[x,y]<200:
 	#	randpointgen()
 	return x,y
 
-cv_image = cv2.imread("/home/neha/Downloads/turtlebot/src/maps/playground1.pgm",cv2.IMREAD_UNCHANGED)
+cv_image = cv2.imread("/home/neha/Downloads/turtlebot/src/maps/playground1.pgm",cv2.IMREAD_GRAYSCALE)
 
 def main(args):
     rospy.init_node('rrt_node', anonymous=True)
     print("i m in")
     try:
-
-	cv2.imshow("neha", cv_image)
-	#print(cv_image.shape)
-	#print(cv_image[140])
-	#o/p of shape is x=231 y=194
-	#make binary file 
-	#define start and end pose
 	start = randpointgen()
+	goal = randpointgen()
 	nodes = np.array([start])
 	graph = np.zeros((1,1))
-	goal = randpointgen()
-	cv2.circle(cv_image, (start[0],start[1]), 3,(0),-1)
-	cv2.circle(cv_image, (goal[0],goal[1]), 3,(0),-1)
-	print(nodes)
+	cv2.circle(cv_image, (start[0],start[1]), 3,0,-1)
+	cv2.circle(cv_image, (goal[0],goal[1]), 3,0,-1)
+	print(start)
+	print(cv_image[start[1],start[0]])
+	print(goal)
+	print(cv_image[goal[1],goal[0]])
 	print(graph)
 	while len(nodes[:,0])<100:
 		rand_pt = randpointgen()
@@ -56,7 +57,7 @@ def main(args):
 			print("goal reached")
 			break
 		#print(cv_image[new_node[0],new_node[1]])
-		if cv_image[new_node[0],new_node[1]]>=210:
+		if cv_image[new_node[1],new_node[0]]>=210:
 			n = len(nodes[:,0])
 			graph = np.concatenate( (graph,[np.zeros(n)-1]) ,axis=0)
 			graph = np.concatenate( (graph,(np.zeros((n+1,1))-1)) ,axis=1)
@@ -66,7 +67,7 @@ def main(args):
 			nodes = np.concatenate((nodes,[new_node]))
 			print("i got in")
 			print(nodes)
-			print(cv_image[new_node[0],new_node[1]])
+			print(cv_image[new_node[1],new_node[0]])
 			#print(graph)
 			cv2.circle(cv_image, (new_node[0],new_node[1]), 1,(0),-1)
 			cv2.line(cv_image,(min_node[0],min_node[1]),(new_node[0],new_node[1]),(150),1)
@@ -74,8 +75,11 @@ def main(args):
 			print(len(nodes[:,0]))
 			print("m here")
 			print(goal)
-	cv2.waitKey()
+			
+	print(cv_image[165,139])
+	print(cv_image[139,165])
 	print("m out")
+	cv2.waitKey()
     except KeyboardInterrupt:
         print("Shutting Down")
     cv2.destroyAllWindows()
