@@ -40,7 +40,6 @@ def main(args):
 		#print(min_node)
 		mini = np.linalg.norm(min_node - rand_pt)
 		for i in range(len(nodes[:,0])):
-			#print(nodes[i])
 			if np.linalg.norm(nodes[i]-rand_pt)<mini:
 				min_node = nodes[i]
 				mini = np.linalg.norm(nodes[i] - rand_pt)	
@@ -53,8 +52,8 @@ def main(args):
 		print(min_node)
 		if(np.linalg.norm(new_node - goal)<10):
 			print("goal reached")
+			print_path(nodes,graph,start)
 			break
-		#print(cv_image[new_node[0],new_node[1]])
 		if cv_image[new_node[1],new_node[0]]>=210:
 			n = len(nodes[:,0])
 			graph = np.concatenate( (graph,[np.zeros(n)-1]) ,axis=0)
@@ -83,13 +82,16 @@ def main(args):
 
 def print_path(nodes,graph,start):
 	pt = nodes[-1]
-	i = -1
-	while (1):
-		arr = np.where(graph[i] > 0)
-		i = arr[0]
-		print(i)
-		new_pt = nodes[i]
-		cv2.line(cv_image,(pt[0],pt[1]),(new_pt[0],new_pt[1]),(150),1)
+	pt_idx = -1
+	while ((pt[0]!=start[0])and(pt[1]!=start[1])):
+		arr = np.where(graph[pt_idx] > 0)
+		print((arr[0])[0])
+		new_pt_idx = (arr[0])[0]
+		new_pt = nodes[new_pt_idx]
+		cv2.line(cv_image,(pt[0],pt[1]),(new_pt[0],new_pt[1]),(0),1)
 		pt = new_pt
+		pt_idx = new_pt_idx
+		print(new_pt)
+		cv2.imshow("neha", cv_image)
 if __name__ == '__main__':
     main(sys.argv)
