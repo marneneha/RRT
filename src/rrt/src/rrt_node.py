@@ -48,7 +48,14 @@ def main(args):
 		print(new_node)
 		print("min_node is")
 		print(min_node)
-		if(np.linalg.norm(new_node - goal)<5):
+		if(np.linalg.norm(new_node - goal)<10):
+			n = len(nodes[:,0])
+			graph = np.concatenate( (graph,[np.zeros(n)-1]) ,axis=0)
+			graph = np.concatenate( (graph,(np.zeros((n+1,1))-1)) ,axis=1)
+			graph[len(nodes[:,0]),((np.where(nodes == min_node))[0])[0]] = mini/2
+			graph[((np.where(nodes == min_node))[0])[0],len(nodes[:,0])] = mini/2
+			graph[len(nodes[:,0]),len(nodes[:,0])] = 0
+			nodes = np.concatenate((nodes,[new_node]))
 			print("goal reached")
 			print_path(nodes,graph,start,new_node,)
 			break
@@ -80,12 +87,15 @@ def main(args):
 
 def print_path(nodes,graph,start,new_node):
 	print(new_node)
+	print(nodes)
+	print(len(nodes[:,0]))
 	print(np.where(nodes == new_node))
-	pt = nodes[((np.where(nodes == new_node))[0])[0]]
-	pt_idx = ((np.where(nodes == new_node))[0])[0]
+	pt = nodes[np.where(nodes == new_node)]
+	pt_idx = np.where(nodes == new_node)
 	print(pt)
 	print(pt_idx)
 	while ((pt[0]!=start[0])and(pt[1]!=start[1])):
+		print(graph[pt_idx])
 		arr = np.where(graph[pt_idx] > 0)
 		print(arr)
 		print((arr[0])[0])
@@ -96,5 +106,6 @@ def print_path(nodes,graph,start,new_node):
 		pt_idx = new_pt_idx
 		print(new_pt)
 		cv2.imshow("neha", cv_image)
+	print(nodes)
 if __name__ == '__main__':
     main(sys.argv)
