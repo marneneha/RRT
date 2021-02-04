@@ -3,8 +3,6 @@
 #add condition for edge not being in obstacle
 import rospy
 import cv2
-from sensor_msgs.msg import Image
-from cv_bridge import CvBridge
 import sys
 import random
 import numpy as np
@@ -28,13 +26,13 @@ def main(args):
 	nodes = np.array([start])
 	graph = np.zeros((1,1))
 	cv2.circle(cv_image, (start[0],start[1]), 3,0,-1)
-	cv2.circle(cv_image, (goal[0],goal[1]), 3,0,-1)
+	cv2.circle(cv_image, (goal[0],goal[1]), 5,0,-1)
 	print(start)
 	print(cv_image[start[1],start[0]])
 	print(goal)
 	print(cv_image[goal[1],goal[0]])
 	print(graph)
-	while len(nodes[:,0])<100:
+	while len(nodes[:,0])<300:
 		rand_pt = randpointgen()
 		min_node = nodes[0]
 		#print(min_node)
@@ -50,9 +48,9 @@ def main(args):
 		print(new_node)
 		print("min_node is")
 		print(min_node)
-		if(np.linalg.norm(new_node - goal)<10):
+		if(np.linalg.norm(new_node - goal)<5):
 			print("goal reached")
-			print_path(nodes,graph,start)
+			print_path(nodes,graph,start,new_node,)
 			break
 		if cv_image[new_node[1],new_node[0]]>=210:
 			n = len(nodes[:,0])
@@ -63,7 +61,7 @@ def main(args):
 			graph[len(nodes[:,0]),len(nodes[:,0])] = 0
 			nodes = np.concatenate((nodes,[new_node]))
 			print("i got in")
-			print(nodes)
+			#print(nodes)
 			#print(cv_image[new_node[1],new_node[0]])
 			print(graph)
 			cv2.circle(cv_image, (new_node[0],new_node[1]), 1,(0),-1)
@@ -80,15 +78,20 @@ def main(args):
         print("Shutting Down")
     cv2.destroyAllWindows()
 
-def print_path(nodes,graph,start):
-	pt = nodes[-1]
-	pt_idx = -1
+def print_path(nodes,graph,start,new_node):
+	print(new_node)
+	print(np.where(nodes == new_node))
+	pt = nodes[((np.where(nodes == new_node))[0])[0]]
+	pt_idx = ((np.where(nodes == new_node))[0])[0]
+	print(pt)
+	print(pt_idx)
 	while ((pt[0]!=start[0])and(pt[1]!=start[1])):
 		arr = np.where(graph[pt_idx] > 0)
+		print(arr)
 		print((arr[0])[0])
 		new_pt_idx = (arr[0])[0]
 		new_pt = nodes[new_pt_idx]
-		cv2.line(cv_image,(pt[0],pt[1]),(new_pt[0],new_pt[1]),(0),1)
+		cv2.line(cv_image,(pt[0],pt[1]),(new_pt[0],new_pt[1]),(0),2)
 		pt = new_pt
 		pt_idx = new_pt_idx
 		print(new_pt)
