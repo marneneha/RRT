@@ -48,7 +48,7 @@ def main(args):
 		print(new_node)
 		print("min_node is")
 		print(min_node)
-		if(np.linalg.norm(new_node - goal)<10):
+		if(np.linalg.norm(new_node - goal)<5):
 			n = len(nodes[:,0])
 			graph = np.concatenate( (graph,[np.zeros(n)-1]) ,axis=0)
 			graph = np.concatenate( (graph,(np.zeros((n+1,1))-1)) ,axis=1)
@@ -87,13 +87,17 @@ def main(args):
 
 def print_path(nodes,graph,start,new_node):
 	print(new_node)
-	print(nodes)
+	#print(nodes)
 	print(len(nodes[:,0]))
 	print(np.where(nodes == new_node))
-	pt = nodes[np.where(nodes == new_node)]
-	pt_idx = np.where(nodes == new_node)
+	pt_col_idx = (np.where(nodes[:,0] == new_node[0]))[0]
+	for i in range(len(pt_col_idx)):
+		if nodes[pt_col_idx[i],1] == new_node[1]:
+			pt_idx = pt_col_idx[i]
+
+	pt = nodes[pt_idx]
 	print(pt)
-	print(pt_idx)
+	print(pt_col_idx)
 	while ((pt[0]!=start[0])and(pt[1]!=start[1])):
 		print(graph[pt_idx])
 		arr = np.where(graph[pt_idx] > 0)
@@ -101,7 +105,7 @@ def print_path(nodes,graph,start,new_node):
 		print((arr[0])[0])
 		new_pt_idx = (arr[0])[0]
 		new_pt = nodes[new_pt_idx]
-		cv2.line(cv_image,(pt[0],pt[1]),(new_pt[0],new_pt[1]),(0),2)
+		cv2.line(cv_image,(pt[0],pt[1]),(new_pt[0],new_pt[1]),(0,255,0),2)
 		pt = new_pt
 		pt_idx = new_pt_idx
 		print(new_pt)
