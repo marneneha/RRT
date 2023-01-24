@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC  `pkg-config opencv`   -shared -Wl,-soname,librrt.so -o /home/neha/motion_planning/devel/lib/librrt.so CMakeFiles/rrt.dir/src/rrt_node.cpp.o 
